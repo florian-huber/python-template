@@ -8,5 +8,5 @@ Starting from the template provided by the Netherlands eScience Center --> https
 
 You need `cookiecutter` installed (e.g. using pip). Then you can create a new repository by running:
 ```
-cookiecutter https://github.com/nlesc/python-template.git
+cookiecutter https://github.com/florian-huber/python-template.git
 ```
