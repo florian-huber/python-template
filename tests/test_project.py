@@ -67,24 +67,6 @@ def test_pytest(baked_with_development_dependencies, project_env_bin_dir):
     assert '== 3 passed in' in result.stdout
 
 
-def test_coverage(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-    result = run([f'{bin_dir}coverage', 'run', '-m', 'pytest'], project_dir)
-    assert result.returncode == 0
-    assert '== 3 passed in' in result.stdout
-    assert (project_dir / '.coverage').exists()
-
-
-def test_tox(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-    result = run([f'{bin_dir}tox'], project_dir)
-    assert result.returncode == 0
-    assert '== 3 passed in' in result.stdout
-    assert (project_dir / '.tox' / 'dist' / 'my_python_package-0.1.0.zip').exists()
-
-
 def test_subpackage(baked_with_development_dependencies, project_env_bin_dir):
     """Test if subpackages end up in sdist and bdist_wheel distributions"""
     project_dir = baked_with_development_dependencies
@@ -108,49 +90,6 @@ def test_subpackage(baked_with_development_dependencies, project_env_bin_dir):
     assert (project_dir / 'build' / 'lib' / 'my_python_package' / 'mysub' / 'mysub2' / '__init__.py').exists()
 
 
-def test_generate_api_docs(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-
-    result = run([f'{bin_dir}sphinx-build', '-b', 'html', 'docs', 'docs/_build/html'], project_dir)
-    assert result.returncode == 0
-    assert 'build succeeded' in result.stdout
-    assert (project_dir / 'docs' / '_build' / 'html' / 'index.html').exists()
-
-
-def test_coverage_api_docs(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-
-    result = run([f'{bin_dir}sphinx-build', '-b', 'coverage', 'docs', 'docs/_build/coverage'], project_dir)
-    assert result.returncode == 0
-    assert 'build succeeded' in result.stdout
-    coverage_file = project_dir / 'docs' / '_build' / 'coverage' / 'python.txt'
-    coverage_file_lines = coverage_file.read_text('utf8').splitlines()
-    expected = ['Undocumented Python objects',
-                '===========================']
-    assert coverage_file_lines == expected
-
-
-def test_doctest_api_docs(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-
-    result = run([f'{bin_dir}sphinx-build', '-b', 'doctest', 'docs', 'docs/_build/doctest'], project_dir)
-    assert result.returncode == 0
-    assert 'build succeeded' in result.stdout
-    assert (project_dir / 'docs' / '_build' / 'doctest' / 'output.txt').exists()
-
-
-def test_prospector(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-
-    result = run([f'{bin_dir}prospector'], project_dir)
-    assert result.returncode == 0
-    assert 'Messages Found: 0' in result.stdout
-
-
 def test_isort_check(baked_with_development_dependencies, project_env_bin_dir):
     project_dir = baked_with_development_dependencies
     bin_dir = project_env_bin_dir
@@ -158,23 +97,3 @@ def test_isort_check(baked_with_development_dependencies, project_env_bin_dir):
     result = run([f'{bin_dir}isort', '--recursive', '--check-only', 'my_python_package'], project_dir)
     assert result.returncode == 0
     assert '' in result.stdout
-
-
-def test_bumpversion(baked_with_development_dependencies, project_env_bin_dir):
-    project_dir = baked_with_development_dependencies
-    bin_dir = project_env_bin_dir
-
-    original_version = '0.1.0'
-    assert original_version in (project_dir / 'setup.cfg').read_text('utf-8')
-    assert original_version in (project_dir / 'CITATION.cff').read_text('utf-8')
-    assert original_version in (project_dir / 'my_python_package' / '__init__.py').read_text('utf-8')
-    assert original_version in (project_dir / 'docs' / 'conf.py').read_text('utf-8')
-
-    result = run([f'{bin_dir}bumpversion', 'major'], project_dir)
-    assert result.returncode == 0
-    assert '' in result.stdout
-    expected_version = '1.0.0'
-    assert expected_version in (project_dir / 'setup.cfg').read_text('utf-8')
-    assert expected_version in (project_dir / 'CITATION.cff').read_text('utf-8')
-    assert expected_version in (project_dir / 'my_python_package' / '__init__.py').read_text('utf-8')
-    assert expected_version in (project_dir / 'docs' / 'conf.py').read_text('utf-8')
