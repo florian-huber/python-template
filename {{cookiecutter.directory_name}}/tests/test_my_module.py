@@ -5,7 +5,7 @@ from {{cookiecutter.package_name}}.my_module import hello
 
 
 def test_hello():
-    assert hello('nlesc') == 'Hello nlesc!'
+    assert hello('Alice') == 'Hello Alice!'
 
 
 def test_hello_with_error():
