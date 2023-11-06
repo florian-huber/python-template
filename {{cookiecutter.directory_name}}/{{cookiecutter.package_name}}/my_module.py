@@ -24,6 +24,6 @@ def hello(name):
         'Hello Jane Smith!'
 
     """
-    if name == 'nobody':
-        raise ValueError('Can not say hello to nobody')
-    return f'Hello {name}!'
+    if name == "nobody":
+        raise ValueError("Can not say hello to nobody")
+    return f"Hello {name}!"
