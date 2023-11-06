@@ -10,9 +10,6 @@ exclude = '''
 [tool.isort]
 profile = "black"
 
-[tool.pylint]  # If you opt to use pylint
-# Pylint configuration options
-
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
