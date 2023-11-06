@@ -1,3 +1,5 @@
+## outdated --> my Minimum Python Template can not be found [here](https://github.com/florian-huber/minimal-python-template)
+
 # Minimal Cookiecutter Python Template
 
 Working on minimal cookiecutter python template.
