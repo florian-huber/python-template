@@ -11,7 +11,8 @@ To install {{ cookiecutter.package_name }} from GitHub repository, do:
 ```console
 git clone {{ cookiecutter.repository }}.git
 cd {{ cookiecutter.directory_name }}
-python3 -m pip install .
+python -m pip install .
+# or on mac: python3 -m pip install .
 ```
 
 ## Documentation
